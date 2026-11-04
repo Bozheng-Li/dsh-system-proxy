@@ -19,7 +19,7 @@ dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
 
 安装后**完全退出并重启 DSH**。然后在代理软件里开启系统代理，例如 `127.0.0.1:7897`，保持 TUN 关闭。
 
-插件使用 undici 安装进程级全局 dispatcher，覆盖 DSH 内使用 Node `fetch()` 的模型请求、Web Search 和 HTTP MCP。Electron 的登录/更新网络不保证覆盖。
+插件使用 undici 安装进程级全局 dispatcher，并把代理变量传给 DSH 启动的 pnpm、git 等子进程，覆盖模型请求、Web Search、HTTP MCP 和插件安装。Electron 的登录/更新网络不保证覆盖。
 
 ### 从插件发现页安装
 

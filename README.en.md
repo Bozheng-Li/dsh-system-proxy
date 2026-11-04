@@ -19,7 +19,7 @@ dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
 
 Fully quit and restart DSH. Then enable the proxy client's system proxy, for example `127.0.0.1:7897`, and keep TUN off.
 
-The plugin installs a process-wide undici dispatcher for DSH requests that use Node `fetch()`, including model requests, Web Search and HTTP MCP. Electron login/update traffic is not guaranteed to be covered.
+The plugin installs a process-wide undici dispatcher and publishes the proxy to DSH-managed pnpm, git and other child processes. This covers model requests, Web Search, HTTP MCP and plugin installation. Electron login/update traffic is not guaranteed to be covered.
 
 ### Install from Discover
 
