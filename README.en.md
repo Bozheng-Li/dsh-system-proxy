@@ -2,15 +2,23 @@
 
 Use the Windows system proxy in [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH). Enable the proxy client's system proxy and HTTP port; no TUN mode is needed for DSH.
 
-Windows 10/11 and DSH `0.2.1-rc.2` through pre-`0.3.0` are supported.
+> Windows 10/11 and DSH `0.2.1-rc.2` through pre-`0.3.0`. Current version: **0.1.1**, available on [npm](https://www.npmjs.com/package/dsh-system-proxy).
 
-## Install
+**Coverage:** model requests, Web Search, HTTP MCP, and DSH child processes such as pnpm and git. Electron login/update traffic is not guaranteed to be covered.
 
-Available on [npm](https://www.npmjs.com/package/dsh-system-proxy). Current version: **0.1.1**.
+## Quick Install
 
-**In DSH:** open **Plugins → Add plugin**, enter `dsh-system-proxy@0.1.1`, and install. If a regional mirror has not synced yet, choose the official npm registry.
+Open **Plugins → Add plugin** in DSH, enter the package name below, and install it:
 
-**CLI:**
+```text
+dsh-system-proxy@0.1.1
+```
+
+![Install dsh-system-proxy from the DSH plugin page](docs/images/install-plugin.svg)
+
+After installation, **fully quit DSH and start it again**. If a regional npm mirror has not synced, select the official npm registry.
+
+### CLI
 
 ```powershell
 # dsh on PATH
@@ -27,13 +35,21 @@ The source version can also be installed from GitHub:
 dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
 ```
 
-Fully quit and restart DSH. Then enable the proxy client's system proxy, for example `127.0.0.1:7897`, and keep TUN off.
+## Enable the Proxy
 
-The plugin installs a process-wide undici dispatcher and publishes the proxy to DSH-managed pnpm, git and other child processes. This covers model requests, Web Search, HTTP MCP and plugin installation. Electron login/update traffic is not guaranteed to be covered.
+Turn on **System Proxy** in the proxy client and keep **TUN mode off**. The common HTTP port is `7897`; use the address shown by your client.
 
-### Install from Discover
+![Enable system proxy and keep TUN off](docs/images/proxy-settings.svg)
 
-DSH currently has no official marketplace. Enable **More > Custom plugin markets**, then add this source under **Discover**:
+Full install, restart, and enable flow:
+
+![Install, restart, and enable](docs/images/restart-flow.svg)
+
+The plugin reads the current user's Windows WinINET system proxy settings, so no proxy address is normally needed.
+
+## Install from the Plugin Market
+
+DSH has no official plugin marketplace yet. Enable **More > Custom plugin markets**, then add this source under **Discover**:
 
 ```text
 https://raw.githubusercontent.com/Bozheng-Li/dsh-system-proxy/main/market/index.json
@@ -54,27 +70,33 @@ The default follows the Windows system proxy. To pin a proxy, edit:
     proxyUrl: http://127.0.0.1:7897
 ```
 
-Modes: `auto` follows Windows, `manual` pins `proxyUrl`, and `off` disables the plugin. Explicit `HTTP_PROXY` / `HTTPS_PROXY` wins. PAC/WPAD and SOCKS URLs are not supported directly; use the proxy client's HTTP or mixed port.
+| mode | Behavior |
+| --- | --- |
+| `auto` | Follow the Windows system proxy; default |
+| `manual` | Always use `proxyUrl` |
+| `off` | Disable the plugin proxy |
 
-## Verify
+Explicit `HTTP_PROXY` / `HTTPS_PROXY` values win over Windows settings. PAC/WPAD is not supported; use `manual` instead. SOCKS cannot be used directly as the system proxy URL; use the proxy client's HTTP or mixed port.
 
-On 2026-11-04, a real `haina / deepseek-v4.1-flash` Responses API request was tested in an isolated profile with inherited proxy variables removed:
+## Check That It Is Active
 
-| State | Result | Time |
-| --- | --- | --- |
-| Plugin uninstalled | `UND_ERR_CONNECT_TIMEOUT` | 10.8 s |
-| npm `0.1.1` installed and mounted | HTTP 200, model replied `AB_TEST_OK` | 3.0 s |
-| Plugin uninstalled again | `UND_ERR_CONNECT_TIMEOUT` | 10.6 s |
-
-The successful request connected through `127.0.0.1:7897`. This is a local API connectivity test, not a desktop UI automation test or a guarantee for every network.
-
-At startup, the plugin logs:
+A successful mount logs:
 
 ```text
 dsh-system-proxy: using http://127.0.0.1:7897 from Windows system proxy
 ```
 
-If it does not work, check the system proxy toggle, listening port, a full DSH restart, the `desktop` profile, and any overriding proxy environment variables.
+You can also inspect the Windows proxy setting and listening port:
+
+```powershell
+Get-ItemProperty `
+  'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' |
+  Select-Object ProxyEnable, ProxyServer
+
+Test-NetConnection 127.0.0.1 -Port 7897
+```
+
+If it does not work, check that the system proxy is enabled, the port is listening, DSH was fully restarted, the profile is `desktop`, and no proxy environment variable overrides the setting.
 
 ## Uninstall
 
