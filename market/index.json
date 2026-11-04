@@ -1,0 +1,82 @@
+{
+  "format": 1,
+  "title": {
+    "en": "DSH System Utilities",
+    "zh": "DSH 系统工具"
+  },
+  "description": {
+    "en": "Small utilities for DeepSeek Harness.",
+    "zh": "DeepSeek Harness 的小型实用插件。"
+  },
+  "metadata": {
+    "categories": {
+      "network": {
+        "title": {
+          "en": "Network",
+          "zh": "网络"
+        }
+      }
+    },
+    "labels": {
+      "windows": {
+        "title": {
+          "en": "Windows",
+          "zh": "Windows"
+        }
+      },
+      "proxy": {
+        "title": {
+          "en": "Proxy",
+          "zh": "代理"
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "dsh-system-proxy",
+      "title": {
+        "en": "Windows System Proxy",
+        "zh": "Windows 系统代理"
+      },
+      "description": {
+        "en": "Let DSH reuse the Windows system HTTP proxy without TUN mode.",
+        "zh": "让 DSH 复用 Windows 系统 HTTP 代理，无需开启 TUN。"
+      },
+      "author": "Bozheng-Li",
+      "homepage": "https://github.com/Bozheng-Li/dsh-system-proxy#readme",
+      "repository": {
+        "url": "https://github.com/Bozheng-Li/dsh-system-proxy"
+      },
+      "metadata": {
+        "category": "network",
+        "keywords": [
+          "windows",
+          "proxy",
+          "system-proxy",
+          "tun",
+          "clash",
+          "mihomo"
+        ],
+        "labels": [
+          "windows",
+          "proxy"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1793773842,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Bozheng-Li/dsh-system-proxy",
+            "commit": "ddc2a6300156294ac366926f5219892163331293"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.2 <0.3.0"
+          }
+        }
+      ]
+    }
+  ]
+}

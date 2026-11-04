@@ -21,6 +21,16 @@ dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
 
 插件使用 undici 安装进程级全局 dispatcher，覆盖 DSH 内使用 Node `fetch()` 的模型请求、Web Search 和 HTTP MCP。Electron 的登录/更新网络不保证覆盖。
 
+### 从插件发现页安装
+
+DSH 当前没有官方插件市场。打开“插件 → 实验性插件 → 自定义插件市场”，在“发现”中添加索引源：
+
+```text
+https://raw.githubusercontent.com/Bozheng-Li/dsh-system-proxy/main/market/index.json
+```
+
+之后即可搜索 `dsh-system-proxy` 或“系统代理”。该索引用 Git commit 固定版本，不要求插件先发布到 npm。
+
 ## 配置
 
 默认跟随 Windows 系统代理，不需要写配置。需要固定代理时，编辑：
@@ -74,8 +84,11 @@ dsh plugin --profile desktop remove dsh-system-proxy
 
 ```powershell
 pnpm install
+pnpm market:generate  # 发布新版本后，把 market/index.json 指向当前 commit
 pnpm test
 pnpm pack --pack-destination .
 ```
+
+索引文件是 [market/index.json](market/index.json)，发布流程应先提交代码，再生成并提交索引。
 
 MIT License · [English](README.en.md)

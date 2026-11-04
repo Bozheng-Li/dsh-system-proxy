@@ -21,6 +21,16 @@ Fully quit and restart DSH. Then enable the proxy client's system proxy, for exa
 
 The plugin installs a process-wide undici dispatcher for DSH requests that use Node `fetch()`, including model requests, Web Search and HTTP MCP. Electron login/update traffic is not guaranteed to be covered.
 
+### Install from Discover
+
+DSH currently has no official marketplace. Enable **More > Custom plugin markets**, then add this source under **Discover**:
+
+```text
+https://raw.githubusercontent.com/Bozheng-Li/dsh-system-proxy/main/market/index.json
+```
+
+Search for `dsh-system-proxy` or `Windows proxy`. The index pins a Git commit and does not require an npm release.
+
 ## Configuration
 
 The default follows the Windows system proxy. To pin a proxy, edit:
@@ -66,8 +76,11 @@ Restart DSH afterwards.
 
 ```powershell
 pnpm install
+pnpm market:generate  # Repoint the index after a release
 pnpm test
 pnpm pack --pack-destination .
 ```
+
+The index lives at [market/index.json](market/index.json). Commit the package code first, then generate and commit the index.
 
 MIT License · [中文](README.md)
