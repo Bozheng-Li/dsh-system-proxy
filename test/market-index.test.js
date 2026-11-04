@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
-import { parseMarketIndex } from '@deepseek-ai/dsh-plugin-market-index'
+import { parseMarketIndex, marketInstallTarget } from '@deepseek-ai/dsh-plugin-market-index'
 
 test('market index is valid and lists this plugin', async () => {
   const path = new URL('../market/index.json', import.meta.url)
@@ -11,6 +11,8 @@ test('market index is valid and lists this plugin', async () => {
 
   assert.ok(plugin)
   assert.equal(plugin.versions.length, 1)
-  assert.equal(plugin.versions[0].source.type, 'git')
-  assert.match(plugin.versions[0].source.commit, /^[0-9a-f]{40}$/)
+  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+  assert.equal(plugin.versions[0].source.type, 'npm')
+  assert.equal(plugin.versions[0].version, manifest.version)
+  assert.equal(marketInstallTarget(plugin.name, plugin.versions[0]).spec, `${manifest.name}@${manifest.version}`)
 })

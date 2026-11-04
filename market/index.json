@@ -65,12 +65,10 @@
       },
       "versions": [
         {
-          "version": "0.1.0",
-          "publishTimestamp": 1793773842,
+          "version": "0.1.1",
+          "publishTimestamp": 1793783552,
           "source": {
-            "type": "git",
-            "url": "https://github.com/Bozheng-Li/dsh-system-proxy",
-            "commit": "ddc2a6300156294ac366926f5219892163331293"
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.2 <0.3.0"
