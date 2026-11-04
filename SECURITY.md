@@ -13,5 +13,5 @@ read proxy-client credentials, or open a listening port.
 
 Proxy URLs containing usernames or passwords are supported for authenticated
 proxies. They are redacted from plugin diagnostics, but they are propagated to
-DSH-managed subprocesses by the host's documented proxy environment behavior.
+child processes through the proxy environment variables published by this plugin.
 Do not use this feature in an untrusted local environment.

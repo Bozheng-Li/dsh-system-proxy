@@ -6,6 +6,12 @@ Windows 10/11 and DSH `0.2.1-rc.2` through pre-`0.3.0` are supported.
 
 ## Install
 
+Available on [npm](https://www.npmjs.com/package/dsh-system-proxy). Current version: **0.1.1**.
+
+**In DSH:** open **Plugins → Add plugin**, enter `dsh-system-proxy@0.1.1`, and install. If a regional mirror has not synced yet, choose the official npm registry.
+
+**CLI:**
+
 ```powershell
 # dsh on PATH
 dsh plugin --profile desktop add dsh-system-proxy
@@ -52,15 +58,17 @@ Modes: `auto` follows Windows, `manual` pins `proxyUrl`, and `off` disables the 
 
 ## Verify
 
-```powershell
-Get-ItemProperty `
-  'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' |
-  Select-Object ProxyEnable, ProxyServer
+On 2026-11-04, a real `haina / deepseek-v4.1-flash` Responses API request was tested in an isolated profile with inherited proxy variables removed:
 
-Test-NetConnection 127.0.0.1 -Port 7897
-```
+| State | Result | Time |
+| --- | --- | --- |
+| Plugin uninstalled | `UND_ERR_CONNECT_TIMEOUT` | 10.8 s |
+| npm `0.1.1` installed and mounted | HTTP 200, model replied `AB_TEST_OK` | 3.0 s |
+| Plugin uninstalled again | `UND_ERR_CONNECT_TIMEOUT` | 10.6 s |
 
-A successful mount logs:
+The successful request connected through `127.0.0.1:7897`. This is a local API connectivity test, not a desktop UI automation test or a guarantee for every network.
+
+At startup, the plugin logs:
 
 ```text
 dsh-system-proxy: using http://127.0.0.1:7897 from Windows system proxy

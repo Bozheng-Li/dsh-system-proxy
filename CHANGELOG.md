@@ -21,7 +21,7 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 - Windows per-user system proxy detection through WinINET.
 - Automatic `auto`, fixed `manual`, and opt-out `off` modes.
-- Reuse of DSH's official `@deepseek-ai/dsh-http-proxy` global dispatcher.
+- Self-contained undici global dispatcher, without requiring DSH's internal packages.
 - HTTP/HTTPS proxy URL normalization and Windows bypass-list translation.
 - Loopback bypasses for local DSH and development traffic.
 - Explicit environment-variable precedence over Windows settings.

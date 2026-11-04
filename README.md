@@ -6,6 +6,12 @@
 
 ## 安装
 
+已发布到 [npm](https://www.npmjs.com/package/dsh-system-proxy)，当前版本 **0.1.1**。
+
+**界面安装：** 打开 DSH「插件 → 添加插件」，输入 `dsh-system-proxy@0.1.1` 后安装。若国内镜像尚未同步，请切换到官方 npm 源。
+
+**命令行安装：**
+
 ```powershell
 # dsh 在 PATH 中
 dsh plugin --profile desktop add dsh-system-proxy
@@ -60,15 +66,17 @@ https://raw.githubusercontent.com/Bozheng-Li/dsh-system-proxy/main/market/index.
 
 ## 验证
 
-```powershell
-Get-ItemProperty `
-  'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' |
-  Select-Object ProxyEnable, ProxyServer
+2026-11-04，在隔离 profile 中清除继承的代理变量，用相同凭据实际请求 `haina / deepseek-v4.1-flash` 的 Responses API：
 
-Test-NetConnection 127.0.0.1 -Port 7897
-```
+| 状态 | 结果 | 耗时 |
+| --- | --- | --- |
+| 卸载插件 | `UND_ERR_CONNECT_TIMEOUT` | 10.8 秒 |
+| 从 npm 安装 `0.1.1` 并挂载 | HTTP 200，模型回复 `AB_TEST_OK` | 3.0 秒 |
+| 再次卸载插件 | `UND_ERR_CONNECT_TIMEOUT` | 10.6 秒 |
 
-DSH 启动日志出现下面这一行即表示已接管：
+成功请求的 TCP 连接指向 `127.0.0.1:7897`。这是本机网络下的 API 实测，不保证所有网络环境的结果相同，也不是一次桌面 UI 自动化测试。
+
+DSH 启动时可查看插件日志：
 
 ```text
 dsh-system-proxy: using http://127.0.0.1:7897 from Windows system proxy
