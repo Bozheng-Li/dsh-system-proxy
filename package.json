@@ -52,12 +52,7 @@
       "dsh": ">=0.2.1-rc.2 <0.3.0"
     }
   },
-  "peerDependencies": {
-    "@deepseek-ai/dsh-http-proxy": ">=0.2.1-rc.2 <0.2.2",
-    "@deepseek-ai/dsh-launch-environment": ">=0.2.1-rc.2 <0.2.2"
-  },
-  "devDependencies": {
-    "@deepseek-ai/dsh-http-proxy": "0.2.1-rc.2",
-    "@deepseek-ai/dsh-launch-environment": "0.2.1-rc.2"
+  "dependencies": {
+    "undici": "8.11.2"
   }
 }

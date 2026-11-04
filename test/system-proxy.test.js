@@ -7,7 +7,8 @@ import {
   parseWindowsProxyServer,
   resolveProxyConfig,
 } from '../lib/system-proxy.js'
-import { prepareInstall, redactProxy, DEFAULT_CONFIG } from '../lib/index.js'
+import { redactProxy, DEFAULT_CONFIG } from '../lib/index.js'
+import { windowsBypassTokens } from '../lib/proxy-policy.js'
 
 function baseEnvironment(values = {}) {
   const normalized = new Map(
@@ -17,15 +18,6 @@ function baseEnvironment(values = {}) {
     get(name) {
       const value = normalized.get(name.toUpperCase())
       return value === undefined ? undefined : { value }
-    },
-  }
-}
-
-function context(values = {}) {
-  return {
-    get(name) {
-      if (name === 'launchEnvironment') return baseEnvironment(values)
-      return undefined
     },
   }
 }
@@ -62,6 +54,10 @@ test('translates compatible Windows bypass forms without pretending CIDR works',
   assert.equal(
     value,
     'api.internal,localhost,*.corp.example,sub.example,127.*,[::1],::1',
+  )
+  assert.equal(
+    windowsBypassTokens('localhost;127.*;*.corp.example;<local>;10.0.0.0/8;sub.example'),
+    'localhost,127.0.0.0/8,corp.example,10.0.0.0/8,sub.example',
   )
 })
 
@@ -107,64 +103,6 @@ test('manual mode normalizes host:port and off does not enable a stale proxy', (
   )
 })
 
-test('disabled system proxy leaves the launcher baseline untouched', async () => {
-  const calls = []
-  const task = await prepareInstall(
-    context({ http_proxy: 'http://launch:1' }),
-    DEFAULT_CONFIG,
-    {
-      detect: async () => ({ state: 'disabled' }),
-      install: async () => {
-        calls.push('install')
-        return () => Promise.resolve()
-      },
-    },
-  )
-  assert.equal(calls.length, 0)
-  assert.equal(typeof task.dispose, 'function')
-})
-
-test('enabled detection overlays Windows values and ignores explicit .env proxy', async () => {
-  const calls = []
-  const task = await prepareInstall(
-    context({ https_proxy: 'http://from-dotenv:1' }),
-    DEFAULT_CONFIG,
-    {
-      detect: async () => ({
-        state: 'enabled',
-        http: 'http://127.0.0.1:7897',
-        https: 'http://127.0.0.1:7897',
-        bypass: 'localhost',
-      }),
-      launchEnvironmentOf: (value) => value,
-      environment: {},
-      install: async (environment) => {
-        calls.push(environment)
-        return () => Promise.resolve()
-      },
-    },
-  )
-  assert.equal(calls[0].get('http_proxy')?.value, 'http://127.0.0.1:7897')
-  assert.equal(calls[0].get('https_proxy')?.value, 'http://127.0.0.1:7897')
-  assert.equal(typeof task.dispose, 'function')
-})
-
-test('manual mode installs its URL and redacts credentials in diagnostics', async () => {
-  const seen = []
-  await prepareInstall(
-    context(),
-    { mode: 'manual', proxyUrl: 'http://user:secret@127.0.0.1:7897', useWindowsBypass: false },
-    {
-      detect: async () => ({ state: 'disabled' }),
-      launchEnvironmentOf: () => baseEnvironment(),
-      environment: {},
-      install: async (environment) => {
-        seen.push(environment.get('https_proxy')?.value)
-        return () => Promise.resolve()
-      },
-      report: () => {},
-    },
-  )
-  assert.equal(seen[0], 'http://user:secret@127.0.0.1:7897')
+test('redacts credentials in diagnostics', () => {
   assert.doesNotMatch(redactProxy('http://user:secret@127.0.0.1:7897'), /user|secret/)
 })
