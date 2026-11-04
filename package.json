@@ -1,0 +1,63 @@
+{
+  "name": "dsh-system-proxy",
+  "version": "0.1.0",
+  "description": "Use the Windows system HTTP proxy for DeepSeek Harness without TUN mode",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./system-proxy": "./lib/system-proxy.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "pack:check": "npm pack --dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bozheng-Li/dsh-system-proxy.git"
+  },
+  "homepage": "https://github.com/Bozheng-Li/dsh-system-proxy#readme",
+  "bugs": {
+    "url": "https://github.com/Bozheng-Li/dsh-system-proxy/issues"
+  },
+  "author": "Bozheng-Li",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-bundle",
+    "deepseek-harness",
+    "system-proxy",
+    "windows",
+    "clash",
+    "mihomo"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "compatibility": {
+      "dsh": ">=0.2.1-rc.2 <0.3.0"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-http-proxy": ">=0.2.1-rc.2 <0.2.2",
+    "@deepseek-ai/dsh-launch-environment": ">=0.2.1-rc.2 <0.2.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-http-proxy": "0.2.1-rc.2",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-rc.2"
+  }
+}

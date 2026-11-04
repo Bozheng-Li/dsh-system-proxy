@@ -1,0 +1,14 @@
+# dsh bundle patch: install the enabled Windows system proxy as DSH's
+# process-wide outbound HTTP policy.
+#
+# Fields can be overridden in $DSH_HOME/profiles/<name>/cordis.patch.yml:
+#
+# - id: system-proxy
+#   config:
+#     mode: manual
+#     proxyUrl: http://127.0.0.1:7897
+#     useWindowsBypass: true
+
+- insert:
+    - id: system-proxy
+      name: dsh-system-proxy

@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a proxy or installation problem
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please remove credentials and private hostnames before posting logs.
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH version
+      placeholder: 0.2.1-rc.2
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 23H2
+    validations:
+      required: true
+  - type: textarea
+    id: proxy
+    attributes:
+      label: Proxy setup
+      description: Proxy client and HTTP port. Do not include usernames or passwords.
+      placeholder: Clash Verge, 127.0.0.1:7897, TUN disabled
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Output of the README verification commands and relevant non-secret logs.
+      render: text
