@@ -6,15 +6,19 @@ Windows 10/11 and DSH `0.2.1-rc.2` through pre-`0.3.0` are supported.
 
 ## Install
 
-The package is not published to npm yet. Install from GitHub:
-
 ```powershell
 # dsh on PATH
-dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
+dsh plugin --profile desktop add dsh-system-proxy
 
 # CLI bundled with the desktop app
 & "D:\deepseek-harness\resources\runtime\cli\bin\dsh.cmd" `
-  plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
+  plugin --profile desktop add dsh-system-proxy
+```
+
+The source version can also be installed from GitHub:
+
+```powershell
+dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
 ```
 
 Fully quit and restart DSH. Then enable the proxy client's system proxy, for example `127.0.0.1:7897`, and keep TUN off.
@@ -29,7 +33,7 @@ DSH currently has no official marketplace. Enable **More > Custom plugin markets
 https://raw.githubusercontent.com/Bozheng-Li/dsh-system-proxy/main/market/index.json
 ```
 
-Search for `dsh-system-proxy` or `Windows proxy`. The index pins a Git commit and does not require an npm release.
+Search for `dsh-system-proxy` or `Windows proxy`. The index installs a pinned npm version.
 
 ## Configuration
 
@@ -76,7 +80,7 @@ Restart DSH afterwards.
 
 ```powershell
 pnpm install
-pnpm market:generate  # Repoint the index after a release
+pnpm market:generate  # Sync the index after a release
 pnpm test
 pnpm pack --pack-destination .
 ```

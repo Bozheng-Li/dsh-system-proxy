@@ -56,8 +56,8 @@ test('translates compatible Windows bypass forms without pretending CIDR works',
     'api.internal,localhost,*.corp.example,sub.example,127.*,[::1],::1',
   )
   assert.equal(
-    windowsBypassTokens('localhost;127.*;*.corp.example;<local>;10.0.0.0/8;sub.example'),
-    'localhost,127.0.0.0/8,corp.example,10.0.0.0/8,sub.example',
+    windowsBypassTokens('localhost;127.*;*.corp.example;<local>;10.*;192.168.*;172.16.*;sub.example'),
+    'localhost,127.0.0.0/8,corp.example,10.0.0.0/8,192.168.0.0/16,172.16.0.0/16,sub.example',
   )
 })
 

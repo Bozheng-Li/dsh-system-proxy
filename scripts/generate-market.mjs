@@ -45,7 +45,7 @@ const index = {
         {
           version: manifest.version,
           publishTimestamp: timestamp,
-          source: { type: 'git', url: repository, commit },
+          source: { type: 'npm' },
           engines: { dsh: manifest.dsh.compatibility.dsh },
         },
       ],

@@ -1,6 +1,6 @@
 {
   "name": "dsh-system-proxy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use the Windows system HTTP proxy for DeepSeek Harness without TUN mode",
   "type": "module",
   "main": "lib/index.js",

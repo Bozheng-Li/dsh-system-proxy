@@ -7,6 +7,14 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-04
+
+### Fixed
+
+- Publish proxy environment variables to DSH-managed child processes, including pnpm and git.
+- Normalize Windows semicolon bypass lists and wildcard IPv4 ranges for `NO_PROXY`.
+- Publish the package to npm and use npm as the primary installation source.
+
 ## [0.1.0] - 2026-11-04
 
 ### Added
@@ -22,5 +30,6 @@ and this project uses [Semantic Versioning](https://semver.org/).
 - Unit and real local HTTP proxy routing tests.
 - Chinese and English documentation.
 
-[Unreleased]: https://github.com/Bozheng-Li/dsh-system-proxy/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Bozheng-Li/dsh-system-proxy/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Bozheng-Li/dsh-system-proxy/releases/tag/v0.1.1
 [0.1.0]: https://github.com/Bozheng-Li/dsh-system-proxy/releases/tag/v0.1.0

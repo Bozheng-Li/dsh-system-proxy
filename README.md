@@ -6,15 +6,19 @@
 
 ## 安装
 
-当前还没发布到 npm。用 GitHub URL 安装：
-
 ```powershell
 # dsh 在 PATH 中
-dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
+dsh plugin --profile desktop add dsh-system-proxy
 
 # 桌面版自带的 CLI
 & "D:\deepseek-harness\resources\runtime\cli\bin\dsh.cmd" `
-  plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
+  plugin --profile desktop add dsh-system-proxy
+```
+
+也可以从 GitHub 安装源码版本：
+
+```powershell
+dsh plugin --profile desktop add "github:Bozheng-Li/dsh-system-proxy"
 ```
 
 安装后**完全退出并重启 DSH**。然后在代理软件里开启系统代理，例如 `127.0.0.1:7897`，保持 TUN 关闭。
@@ -29,7 +33,7 @@ DSH 当前没有官方插件市场。打开“插件 → 实验性插件 → 自
 https://raw.githubusercontent.com/Bozheng-Li/dsh-system-proxy/main/market/index.json
 ```
 
-之后即可搜索 `dsh-system-proxy` 或“系统代理”。该索引用 Git commit 固定版本，不要求插件先发布到 npm。
+之后即可搜索 `dsh-system-proxy` 或“系统代理”。市场索引安装的是 npm 上的固定版本。
 
 ## 配置
 
@@ -84,7 +88,7 @@ dsh plugin --profile desktop remove dsh-system-proxy
 
 ```powershell
 pnpm install
-pnpm market:generate  # 发布新版本后，把 market/index.json 指向当前 commit
+pnpm market:generate  # 发布新版本后，同步 market/index.json
 pnpm test
 pnpm pack --pack-destination .
 ```
